@@ -8,6 +8,13 @@
     <artifactId>UNO-Backend</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>space-maven</id>
+            <url>https://maven.pkg.jetbrains.space/wroracer/p/uno/maven</url>
+        </repository>
+    </repositories>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -24,6 +31,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.wroracer</groupId>
+            <artifactId>UNO-Engine</artifactId>
+            <version>1.0.8</version>
         </dependency>
 
         <dependency>
