@@ -9,7 +9,10 @@ job("Build, run tests, publish") {
                 echo Build artifacts...
                 set -e -x -u
                 mvn versions:set -DnewVersion=1.0.${'$'}JB_SPACE_EXECUTION_NUMBER
-                mvn test
+                mvn test -s settings.xml \
+                    -DrepositoryUrl=${'$'}REPOSITORY_URL \
+                    -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
+                    -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
             """
             }
         }
