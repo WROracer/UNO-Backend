@@ -2,7 +2,7 @@ job("Build, Test, Deploy"){
     container("Build, Test"){
         env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/mycompany/p/key/my-maven-repo"
 
-        shellScript("Build") {
+        shellScript("Build Test Deploy") {
                 content = """
                 echo Build artifacts...
                 set -e -x -u
@@ -11,25 +11,14 @@ job("Build, Test, Deploy"){
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
-            """
-        }
-        shellScript("Test"){
-            content = """
-                echo Build artifacts...
-                set -e -x -u
-                mvn versions:set -DnewVersion=${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER
+                    
+                echo Testing artifacts ...
                 mvn test -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
-            """
-        }
-
-        shellScript("Publish") {
-            content = """
-                echo Build and publish artifacts...
-                set -e -x -u
-                mvn versions:set -DnewVersion=${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER
+                
+                echo Publishing Artifacts
                 cp target/UNO-Backend-${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER.jar $mountDir/share/artifact/UNO-Backend-${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER.jar
                 mvn deploy -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
