@@ -1,5 +1,4 @@
 job("Build, run tests, publish") {
-    parallel {
         container("run test script", "maven:3-openjdk-8-slim") {
 
             env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/mycompany/p/key/my-maven-repo"
@@ -32,6 +31,16 @@ job("Build, run tests, publish") {
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
             """
             }
+        }
+}
+
+job("Upload Jar To Server"){
+    container("Upload","maven:3-openjdk-8-slim"){
+        shellScript {
+            content = """
+                echo Build and publish artifacts...
+                echo ls
+            """
         }
     }
 }
