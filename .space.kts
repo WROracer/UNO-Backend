@@ -46,7 +46,7 @@ job("Build, Test, Deploy"){
 
                 echo Uploading artifacts...
                 SOURCE_PATH=$mountDir/share/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar
-                TARGET_PATH=logs/${'$'}JB_SPACE_EXECUTION_NUMBER/log.txt
+                TARGET_PATH=logs/${'$'}JB_SPACE_EXECUTION_NUMBER/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar
                 echo Uploading "${'$'}SOURCE_PATH to ${'$'}BACKEND_SERVER_URL\${'$'}{'${'$'}'}TARGET_PATH"
                 curl -k "${'$'}BACKEND_SERVER_URL\${'$'}TARGET_PATH" --user "${'$'}BACKEND_SERVER_USER:${'$'}BACKEND_SERVER_PW" -T "${'$'}SOURCE_PATH" --ftp-create-dirs
             """
