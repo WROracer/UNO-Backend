@@ -1,7 +1,7 @@
 job("Build, Test, Deploy"){
     container("maven:3-openjdk-8-slim"){
         env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/mycompany/p/key/my-maven-repo"
-        env["UNO_VERSION"] = Params("unu_version")
+        env["UNO_VERSION"] = Params("uno_version")
         shellScript("Build Test Deploy") {
             content = """
                 echo Setup ...
@@ -33,7 +33,7 @@ job("Build, Test, Deploy"){
 
     }
     container("Deploy to Server","alpine/curl") {
-        env["UNO_VERSION"] = Params("unu_version")
+        env["UNO_VERSION"] = Params("uno_version")
         env["BACKEND_SERVER_URL"] = Params("backend_server_url")
         env["BACKEND_SERVER_USER"] = Params("backend_server_user")
         env["BACKEND_SERVER_PW"] = Secrets("backend_server_pw")
