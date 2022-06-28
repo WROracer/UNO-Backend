@@ -42,7 +42,7 @@ job("Build, run tests, publish") {
                 echo Here go your build activities...
 
                 echo Uploading artifacts...
-                SOURCE_PATH=build-logs/log.txt
+                SOURCE_PATH=target/UNO-Backend-1.0-SNAPSHOT.jar
                 TARGET_PATH=logs/${'$'}JB_SPACE_EXECUTION_NUMBER/log.txt
                 REPO_URL=https://files.pkg.jetbrains.space/mycompany/p/my-project/filesrepo
                 curl -k "${'$'}backend_server_url\${'$'}TARGET_PATH" --user "${'$'}	backend_server_user:${'$'}backend_server_pw" -T "${'$'}SOURCE_PATH" --ftp-create-dirs
