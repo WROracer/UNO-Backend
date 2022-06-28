@@ -39,7 +39,7 @@ job("Upload Jar To Server"){
         shellScript {
             content = """
                 echo Build and publish artifacts...
-                echo ls
+                ls
             """
         }
     }
