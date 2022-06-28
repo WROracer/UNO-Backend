@@ -2,7 +2,7 @@ job("Build, Test, Deploy"){
     container("Build, Test"){
         env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/mycompany/p/key/my-maven-repo"
 
-        shellScript("Build Test Deploy") {
+        shellScript() {
                 content = """
                 echo Build artifacts...
                 set -e -x -u
