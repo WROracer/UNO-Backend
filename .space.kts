@@ -1,11 +1,13 @@
 job("Build, Test, Deploy"){
     container("maven:3-openjdk-8-slim"){
         env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/mycompany/p/key/my-maven-repo"
-
         shellScript("Build Test Deploy") {
-                content = """
+            content = """
+                echo Setup ...
+                mvn versions:set -DnewVersion=${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER
+                echo Setting new Version: ${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER
+                
                 echo Build artifacts...
-                set -e -x -u
                 mvn versions:set -DnewVersion=${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER
                 mvn package -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
@@ -20,12 +22,14 @@ job("Build, Test, Deploy"){
                 
                 echo Publishing Artifacts
                 cp target/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar $mountDir/share/artifact/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar
+                set -e -x -u
                 mvn deploy -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
             """
         }
+
     }
     container("Deploy to Server","alpine/curl") {
         shellScript {
