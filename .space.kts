@@ -32,7 +32,7 @@ job("Build, Test, Deploy"){
         }
 
     }
-    container("Deploy to Server","alpine/curl") {
+    container("Deploy to Server","curlimages/curl") {
         env["UNO_VERSION"] = Params("uno_version")
         env["BACKEND_SERVER_URL"] = Params("backend_server_url")
         env["BACKEND_SERVER_USER"] = Params("backend_server_user")
