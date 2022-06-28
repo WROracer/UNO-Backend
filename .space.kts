@@ -6,7 +6,7 @@ job("Build, Test, Deploy"){
                 content = """
                 echo Build artifacts...
                 set -e -x -u
-                mvn versions:set -DnewVersion=${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER
+                mvn versions:set -DnewVersion=${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER
                 mvn package -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
@@ -19,7 +19,7 @@ job("Build, Test, Deploy"){
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
                 
                 echo Publishing Artifacts
-                cp target/UNO-Backend-${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER.jar $mountDir/share/artifact/UNO-Backend-${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER.jar
+                cp target/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar $mountDir/share/artifact/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar
                 mvn deploy -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
@@ -36,10 +36,10 @@ job("Build, Test, Deploy"){
                 echo Here go your build activities...
 
                 echo Uploading artifacts...
-                SOURCE_PATH=$mountDir/share/artifact/UNO-Backend-${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER.jar
+                SOURCE_PATH=$mountDir/share/artifact/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar
                 TARGET_PATH=logs/${'$'}JB_SPACE_EXECUTION_NUMBER/log.txt
                 REPO_URL=https://files.pkg.jetbrains.space/mycompany/p/my-project/filesrepo
-                curl -k "${'$'}backend_server_url\${'$'}TARGET_PATH" --user "${'$'}	backend_server_user:${'$'}backend_server_pw" -T "${'$'}SOURCE_PATH" --ftp-create-dirs
+                curl -k "${'$'}BACKEND_SERVER_URL\${'$'}TARGET_PATH" --user "${'$'}BACKEND_SERVER_USER:${'$'}BACKEND_SERVER_PW" -T "${'$'}SOURCE_PATH" --ftp-create-dirs
                 curl -i -H "Authorization: Bearer ${'$'}JB_SPACE_CLIENT_TOKEN" -F file=@"${'$'}SOURCE_PATH" ${'$'}REPO_URL/${'$'}TARGET_PATH
             """
         }
