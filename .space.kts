@@ -49,6 +49,7 @@ job("Build, Test, Deploy"){
                 TARGET_PATH=
                 URL=${'$'}BACKEND_SERVER_URL/${'$'}TARGET_PATH
                 echo Uploading "${'$'}SOURCE_PATH to ${'$'}URL"
+                set -e -x -u
                 curl -k "${'$'}URL" --user "${'$'}BACKEND_SERVER_USER:${'$'}BACKEND_SERVER_PW" -T "${'$'}SOURCE_PATH" --ftp-create-dirs
             """
         }
