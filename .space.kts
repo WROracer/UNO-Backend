@@ -32,9 +32,6 @@ job("Build, run tests, publish") {
             """
             }
         }
-}
-
-job("Upload artifact") {
     // Docker image must contain the curl tool
     container("alpine/curl") {
         shellScript {
