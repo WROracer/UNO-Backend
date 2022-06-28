@@ -1,39 +1,44 @@
-job("Build, run tests, publish") {
-        container("run test script", "maven:3-openjdk-8-slim") {
+job("Build, Test, Deploy"){
+    container("Build, Test"){
+        env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/mycompany/p/key/my-maven-repo"
 
-            env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/mycompany/p/key/my-maven-repo"
-
-            shellScript {
+        shellScript("Build") {
                 content = """
                 echo Build artifacts...
                 set -e -x -u
-                mvn versions:set -DnewVersion=1.0.${'$'}JB_SPACE_EXECUTION_NUMBER
+                mvn versions:set -DnewVersion=${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER
+                mvn package -s settings.xml \
+                    -DrepositoryUrl=${'$'}REPOSITORY_URL \
+                    -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
+                    -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
+            """
+        }
+        shellScript("Test"){
+            content = """
+                echo Build artifacts...
+                set -e -x -u
+                mvn versions:set -DnewVersion=${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER
                 mvn test -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
             """
-            }
         }
 
-        container(displayName = "Run publish script", image = "maven:3-openjdk-8-slim") {
-            // url of a Space Packages repository
-            env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/mycompany/p/key/my-maven-repo"
-
-            shellScript {
-                content = """
+        shellScript("Publish") {
+            content = """
                 echo Build and publish artifacts...
                 set -e -x -u
-                mvn versions:set -DnewVersion=1.0.${'$'}JB_SPACE_EXECUTION_NUMBER
+                mvn versions:set -DnewVersion=${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER
+                cp target/UNO-Backend-${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER.jar $mountDir/share/artifact/UNO-Backend-${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER.jar
                 mvn deploy -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
             """
-            }
         }
-    // Docker image must contain the curl tool
-    container("alpine/curl") {
+    }
+    container("Deploy to Server","alpine/curl") {
         shellScript {
             // SOURCE_PATH is path to the build artifact
             // TARGET_PATH is the destination path in the file repository
@@ -42,7 +47,7 @@ job("Build, run tests, publish") {
                 echo Here go your build activities...
 
                 echo Uploading artifacts...
-                SOURCE_PATH=target/UNO-Backend-1.0-SNAPSHOT.jar
+                SOURCE_PATH=$mountDir/share/artifact/UNO-Backend-${'$'}uno_version${'$'}JB_SPACE_EXECUTION_NUMBER.jar
                 TARGET_PATH=logs/${'$'}JB_SPACE_EXECUTION_NUMBER/log.txt
                 REPO_URL=https://files.pkg.jetbrains.space/mycompany/p/my-project/filesrepo
                 curl -k "${'$'}backend_server_url\${'$'}TARGET_PATH" --user "${'$'}	backend_server_user:${'$'}backend_server_pw" -T "${'$'}SOURCE_PATH" --ftp-create-dirs
