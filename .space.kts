@@ -47,9 +47,8 @@ job("Build, Test, Deploy"){
                 echo Uploading artifacts...
                 SOURCE_PATH=$mountDir/share/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar
                 TARGET_PATH=logs/${'$'}JB_SPACE_EXECUTION_NUMBER/log.txt
-                REPO_URL=https://files.pkg.jetbrains.space/mycompany/p/my-project/filesrepo
+                echo Uploading "${'$'}SOURCE_PATH to ${'$'}BACKEND_SERVER_URL\${'$'}{'${'$'}'}TARGET_PATH"
                 curl -k "${'$'}BACKEND_SERVER_URL\${'$'}TARGET_PATH" --user "${'$'}BACKEND_SERVER_USER:${'$'}BACKEND_SERVER_PW" -T "${'$'}SOURCE_PATH" --ftp-create-dirs
-                curl -i -H "Authorization: Bearer ${'$'}JB_SPACE_CLIENT_TOKEN" -F file=@"${'$'}SOURCE_PATH" ${'$'}REPO_URL/${'$'}TARGET_PATH
             """
         }
     }
