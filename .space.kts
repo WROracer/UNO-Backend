@@ -10,7 +10,7 @@ job("Build, Test, Deploy"){
                 
                 echo Build artifacts...
                 mvn versions:set -DnewVersion=${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER
-                mvn package -s settings.xml \
+                mvn package -DskipTests -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
@@ -24,7 +24,7 @@ job("Build, Test, Deploy"){
                 echo Publishing Artifacts
                 cp target/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar $mountDir/share/UNO-Backend-${'$'}UNO_VERSION${'$'}JB_SPACE_EXECUTION_NUMBER.jar
                 set -e -x -u
-                mvn deploy -s settings.xml \
+                mvn deploy -DskipTests -s settings.xml \
                     -DrepositoryUrl=${'$'}REPOSITORY_URL \
                     -DspaceUsername=${'$'}JB_SPACE_CLIENT_ID \
                     -DspacePassword=${'$'}JB_SPACE_CLIENT_TOKEN
