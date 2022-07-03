@@ -1,5 +1,9 @@
 package de.wroracer.unobackend.websocket;
 
+import de.wroracer.unobackend.services.GameService;
+import de.wroracer.unobackend.websocket.data.GameSocketResponse;
+import de.wroracer.unobackend.websocket.data.PlayerJoinMessage;
+import de.wroracer.unoengine.Game;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -7,19 +11,18 @@ import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class GameController {
-    @MessageMapping("/welcome")
-    @SendTo("/topic/greetings")
-    public String greeting(String payload) {
-        System.out.println("Generating new greeting message for " + payload);
-        return "Hello, " + payload + "!";
+public class GameSocketController {
+
+    private GameService service;
+
+    public GameSocketController(GameService service){
+        this.service = service;
     }
 
-    @SubscribeMapping("/chat")
-    public Message sendWelcomeMessageOnSubscription() {
-        Message welcomeMessage = new Message();
-        welcomeMessage.setMessage("Hello World!");
-        return welcomeMessage;
+    @MessageMapping("/game/{gameID}/join")
+    @SendTo("/topic/game/{gameID}")
+    public GameSocketResponse joinGame(@DestinationVariable String gameID, PlayerJoinMessage joinMessage){
+        return service.joinGame(gameID,joinMessage);
     }
 
     @MessageMapping("/game/{gameId}/{userId}")

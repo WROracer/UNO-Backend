@@ -1,5 +1,7 @@
 package de.wroracer.unobackend.websocket;
 
+import com.jcraft.jsch.JSch;
+
 public class Message {
     private String message;
 
