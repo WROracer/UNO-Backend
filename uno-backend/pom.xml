@@ -11,6 +11,17 @@
 
     <artifactId>uno-backend</artifactId>
 
+
+    <repositories>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/wroracer/uno-engine</url>
+        </repository>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/wroracer/uno-backend</url>
+        </repository>
+    </repositories>
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>

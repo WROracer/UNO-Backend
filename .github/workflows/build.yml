@@ -16,7 +16,7 @@ jobs:
         uses: 'WROracer/version-bump-action@master'
         with:
           github-token: '${{ secrets.github_token }}'
-          git-username: Maven-Version-Bot
+          git-username: Bot
           auto-version-bump: true
       - name: Print Version
         run: 'echo ''New Version: ${{steps.bump.outputs.version}}'''
