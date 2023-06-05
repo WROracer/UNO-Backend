@@ -14,12 +14,8 @@
 
     <repositories>
         <repository>
-            <id>github1</id>
+            <id>github</id>
             <url>https://maven.pkg.github.com/wroracer/uno-engine</url>
-        </repository>
-        <repository>
-            <id>github2</id>
-            <url>https://maven.pkg.github.com/wroracer/uno-backend</url>
         </repository>
     </repositories>
     <properties>
