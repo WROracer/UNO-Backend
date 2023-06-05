@@ -14,11 +14,11 @@
 
     <repositories>
         <repository>
-            <id>github</id>
+            <id>github1</id>
             <url>https://maven.pkg.github.com/wroracer/uno-engine</url>
         </repository>
         <repository>
-            <id>github</id>
+            <id>github2</id>
             <url>https://maven.pkg.github.com/wroracer/uno-backend</url>
         </repository>
     </repositories>
