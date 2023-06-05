@@ -193,16 +193,13 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-      - name: Change Dir
-        run: cd ./uno-backend-data
-
       - name: Build with Maven
-        run: 'mvn -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml -B clean:clean package --file pom.xml'
+        run: 'mvn -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml -B clean:clean package --file ./uno-backend-data/pom.xml'
         env:
           USER_NAME: ${{ secrets.USER_NAME }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml  --file ./uno-backend-data/pom.xml
         env:
           GITHUB_TOKEN: ${{ github.token }}
