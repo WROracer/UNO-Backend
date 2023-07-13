@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.wroracer</groupId>
         <artifactId>uno-backend-root</artifactId>
-        <version>0.0.1-dev2</version>
+        <version>0.1.0</version>
     </parent>
 
     <artifactId>uno-backend</artifactId>
