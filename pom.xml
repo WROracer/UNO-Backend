@@ -6,7 +6,7 @@
 
     <groupId>de.wroracer</groupId>
     <artifactId>uno-backend-root</artifactId>
-    <version>0.0.2-dev0</version>
+    <version>0.0.2-dev1</version>
     <packaging>pom</packaging>
     <distributionManagement>
         <repository>
