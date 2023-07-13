@@ -9,13 +9,6 @@
         <version>0.0.1.dev2</version>
     </parent>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/wroracer/uno-backend</url>
-        </repository>
-    </distributionManagement>
-
     <artifactId>uno-backend-data</artifactId>
 
     <properties>
