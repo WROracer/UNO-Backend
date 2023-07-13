@@ -10,7 +10,8 @@ public class GameConverter {
         UnoGame g = new UnoGame();
         g.setGameId(game.getId());
         g.getPlayers().addAll(PlayerConverter.convertAll(game.getPlayers(), game, GameManager.getInstance().getPlayerNames(game)));
-        g.setCurrentCard(CardConverter.convert(game.getCurrentCard()));
+        if (game.getCurrentCard() != null)
+            g.setCurrentCard(CardConverter.convert(game.getCurrentCard()));
         return g;
     }
 }

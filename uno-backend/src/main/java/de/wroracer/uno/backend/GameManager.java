@@ -4,6 +4,7 @@ import de.wroracer.uno.backend.data.UnoGame;
 import de.wroracer.uno.backend.data.UnoPlayer;
 import de.wroracer.uno.backend.util.GameConverter;
 import de.wroracer.uno.backend.util.PlayerConverter;
+import de.wroracer.uno.backend.ws.GameSocket;
 import de.wroracer.uno.engine.Game;
 import de.wroracer.uno.engine.Player;
 
@@ -16,7 +17,8 @@ public class GameManager {
     private static final GameManager INSTANCE = new GameManager();
     private final List<Game> games;
 
-    private HashMap<UUID, HashMap<UUID, String>> playerNames;
+    private HashMap<UUID, HashMap<UUID, String>> playerNames = new HashMap<>();
+    private GameSocket gameSocket;
 
     /*
     Init of GameManager
@@ -51,11 +53,22 @@ public class GameManager {
             playerNames.put(gameId, new HashMap<>());
         }
         playerNames.get(gameId).put(player.getId(), playerName);
-        return PlayerConverter.convert(player, game, playerName);
+        UnoPlayer up = PlayerConverter.convert(player, game, playerName);
+        UnoGame ug = GameConverter.convert(game);
+
+        if (gameSocket != null) {
+            //TODO
+            gameSocket.broadcastToGame(ug, null);
+        }
+        return up;
     }
 
     private Game getGame(UUID gameId) {
         return games.stream().filter(g -> g.getId().equals(gameId)).findFirst().orElseThrow();
+    }
+
+    public UnoGame getUnoGame(UUID gameId) {
+        return GameConverter.convert(getGame(gameId));
     }
 
     public List<UnoGame> getGames() {
@@ -64,5 +77,9 @@ public class GameManager {
 
     private void gameFinished(Game game) {
         //TODO
+    }
+
+    public void setWebSocket(GameSocket gameSocket) {
+        this.gameSocket = gameSocket;
     }
 }

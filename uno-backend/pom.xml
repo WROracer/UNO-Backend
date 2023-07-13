@@ -41,7 +41,7 @@
         <dependency>
             <groupId>de.wroracer</groupId>
             <artifactId>uno-engine</artifactId>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
         </dependency>
 
         <dependency>

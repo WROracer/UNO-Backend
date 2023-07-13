@@ -1,5 +1,6 @@
 package de.wroracer.uno.backend.ws;
 
+import de.wroracer.uno.backend.GameManager;
 import de.wroracer.uno.backend.data.UnoGame;
 import de.wroracer.uno.backend.data.UnoPlayer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import java.util.UUID;
 
 @Controller
 public class GameSocket {
-
-
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
+    public GameSocket() {
+        GameManager.getInstance().setWebSocket(this);
+    }
 
     @MessageMapping("/game/{gameId}/{playerId}")
     @SendTo("/topic/game/{gameId}/{playerId}")
@@ -33,6 +36,6 @@ public class GameSocket {
 
     //TODO Create Main message object
     public void sendMessage(UnoPlayer player, UnoGame game, Objects msg) {
-        simpMessagingTemplate.convertAndSend("/topic/game/" + game.getGameId() + "/" + player.getPlayerId(), msg);
+        //simpMessagingTemplate.convertAndSend("/topic/game/" + game.getGameId() + "/" + player.getPlayerId(), msg);
     }
 }
