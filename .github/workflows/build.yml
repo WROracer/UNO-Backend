@@ -119,7 +119,6 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     needs: release
-    if: false
     steps:
       - uses: actions/download-artifact@v2
         id: download
@@ -135,15 +134,15 @@ jobs:
         run: |
           echo "${{ steps.glob.outputs.paths }}"
       - name: Rename Jar
-        run: mv ${{ steps.glob.outputs.paths }} MinecraftEmergency.jar
+        run: mv ${{ steps.glob.outputs.paths }} UNO-Server.jar
       - name: Publish to pterodactyl
         uses: Avenze/pterodactyl-actions@master
         with:
           panel: '${{ secrets.PANEL }}'
           api_key: '${{ secrets.API_KEY }}'
           server: '${{ secrets.SERVER }}'
-          path: 'MinecraftEmergency.jar'
-          directory: /plugins
+          path: 'UNO-Server.jar'
+          directory: /
       - name: Pterodactyl Power Action
         uses: outsparkled/pterodactyl-power-action@v0.1.0
         with:
