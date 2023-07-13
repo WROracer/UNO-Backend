@@ -131,7 +131,7 @@ jobs:
         id: glob
         with:
           files: |
-            *.jar
+            uno-backend/target/*.jar
       - name: Show all matching files
         run: |
           echo "${{ steps.glob.outputs.paths }}"
